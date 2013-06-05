@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $_LANG['step4_title'];?></title>
+<link rel="stylesheet" media="screen"  href="css/base.css"/>
+</head>
+
+<body>
+	<div id="wrap">
+		<!-- header -->
+        <?php include_once dirname(__FILE__). '/header.php';?>
+		<!-- end header -->
+		<div id="main">
+			<div class="content-box">
+				<div class="step3 step-bg"></div>
+				<div class="ct-mid">
+					<div class="title-info">
+						<h3 id="show_install_text"><?php echo $_LANG['xweibo_installing'];?></h3>
+					</div>	
+					<div class="box-scroll-y" id="show_table">
+						<?php foreach ($table_list as $item):?>
+						  <p style="display:none"><?php echo $_LANG['create_table'].' '.$item[0].$_LANG['create_talbe_success'];?></p>
+						<?php endforeach;?>
+					</div>
+					<div class="btn-area" id="show_install_btn">
+						<span class="btn-common-disabled all-bg"><?php echo $_LANG['next_button'];?></span>
+					</div>
+				</div>
+				<div class="ct-bot"></div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+var p = document.getElementById('show_table').getElementsByTagName('p');
+var n = 0;
+var timer = 0;
+function show_tables()
+{
+	if (n > p.length - 1) {
+		clearInterval(timer);
+		//
+		document.getElementById('show_install_text').innerHTML = '<?php echo $_LANG['done'];?>';
+		//
+		document.getElementById('show_install_btn').innerHTML = '<a href="index.php?method=done" class="btn-common all-bg"><span><?php echo $_LANG['next_button'];?></span></a>';
+		return;
+	}
+	if (n >= 0) {
+		p[n].style.display = '';
+		document.getElementById('show_table').scrollTop = document.getElementById('show_table').scrollHeight;
+		n++;
+	} 
+}
+
+function setIntervals(){
+	timer = setInterval('show_tables()',50);
+}
+
+setIntervals();
+</script>
+</html>

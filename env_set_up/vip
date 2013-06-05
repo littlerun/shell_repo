@@ -1,0 +1,10 @@
+#!/bin/sh
+file_info=$1
+ 
+ 
+if [ -z $file_info ]; then
+echo "missing argument: file information."
+exit
+fi 
+
+`echo $file_info | awk -F ":" '{print "vim +"$2" "$1}'`

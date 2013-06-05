@@ -1,0 +1,226 @@
+案例4：如何通过脚本实现CVS智能部署
+
+大多数应用服务器都需要我们手动执行CVS命令，将脚本部署到发布目录，每次都需要输入一大串重复的命令行命令，并且每输入一条CVS命令，都需要验证CVS用户名和口令，这样频繁的重复性工作，能不能通过一个脚本来实现呢。我们做了一些简单的尝试，发现效果是很不错的
+
+[b]问题1：如何实现与服务器自动交互输入口令？[/b]
+回答：通过Linux的expect命令完成。
+详细解释：
+Expect是一个免费的编程工具语言，用来实现自动和交互式任务进行通信，而无需人的干预。
+1）安装expect脚本 
+	yum 	安装： [b]yum install expect[/b]
+	apt-get 安装： [b]apt-get install expect[/b]
+2)自动输入口令交互脚本示例：
+spawn cvs co -r Head mymodel1
+expect "password:"
+send "cvs_password"
+expect eof
+
+[b]问题2：如何判断文件是否已经在部署位置存在了？[/b]
+回答：通过shell的if条件的-f参数判断文件是否存在于指定位置。
+详细写法：
+if [ -f "/var/www/html/index.html" ]; then
+	echo "the specific file is exist!";
+fi
+
+[b]问题3：部署成功或出现错误时，如何在屏幕上高亮输出提示用户？[/b]
+回答：通过echo结合-e为用户输出带有色彩的（红色：'\e[1;31m'，蓝色：'\e[1;34m'）提示信息。
+详细写法：
+1)定义屏幕输出色彩的转义码：
+RED='\e[1;31m' #红色
+BLUE='\e[1;34m'#蓝色
+CYAN='\e[1;36m'#天蓝色
+NC='\e[0m' #无色彩
+2)输出示例：
+echo -e "$RED Error: The specific file - /var/www/html/index.html not exist!$NC"
+注意，在屏幕输出色彩结束后，必须手动输出色彩'\e[0m'，否则后面的命令行全部会沿用刚才输出时设置的颜色。
+
+[b]问题4：如何在脚本中读取用户输入?[/b]
+回答：通过read命令读取用户输入到指定变量中。
+详细写法：
+echo -n -e "Please chose one branch $CYAN[1-10]:$NC"
+read version
+
+下面的部署脚本示例，是一段CVS命令行智能检出、更新脚本，如果其他的版本控制工具也可以参照同样的思路，只需要针对一些细节进行调整（比如输入、输出格式等）即可：
+#!/bin/bash
+
+# -------------------------------------------------------------------
+# Filename:    upf
+# Revision:    0.0.1.2
+# Date:        2012/05/25
+# Author:      Luke
+# Email:       zhsongdl@cn.ibm.com
+# Description: Automatic deploy the code on stage server.
+# Notes:       This plugin uses the "" command
+# -------------------------------------------------------------------
+# Copyright:   2012 (c) 
+# License:     GPL
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# you should have received a copy of the GNU General Public License
+# along with this program
+
+# If any changes are made to this script, please mail me a copy of the changes
+# -------------------------------------------------------------------
+
+#
+#Using the script:
+# 1) yum install expect
+# 2）upf filename
+
+
+# Define some colors first:
+RED='\e[1;31m'
+BLUE='\e[1;34m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+update_file=$1
+ori_location=$2
+password=$3
+file_version=""
+cvs_model=""
+#Define the username via executing the `whoami` command.
+username=`whoami`
+#Define the current path via executing the `pwd` command.
+current_dir=`pwd`
+#Define the temporary directory for the script.
+tmp_dir=~/upf_tmp_dir
+is_check='n'
+
+#Default configuration variables.
+_DEFAULT_MODEL=track
+_DEV_PATH="/var/www/html/dev"
+_STAGE_PATH="/var/www/html/ptt/App"
+
+#Set up CVS environment for PTT
+CVSROOT=:ext:cvs.pok.ibm.com:/home/cvsroot CVS_RSH=ssh;
+export CVSROOT CVS_RSH
+
+if [ "${ori_location}" = "dev" ]; then
+	ori_location=$_DEV_PATH
+fi
+
+if [ "${ori_location}" = "stage" ]; then
+	ori_location=$_STAGE_PATH
+fi
+
+if [ -z $ori_location ]; then
+	ori_location=$_STAGE_PATH
+fi
+
+location=$ori_location/$_DEFAULT_MODEL
+cvs_model=$_DEFAULT_MODEL
+
+if [ -z $password ]; then
+	password=7fxes0hy
+fi
+
+if [ ! -f "$location/$update_file" ];
+then
+	if [ -f "$current_dir/$update_file" ];
+	then
+		location=$current_dir
+		ori_location = `echo $current_dir | sed "s/\/$_DEFAULT_MODEL\//\t&\t/g" | awk '{print $1}'`
+		cvs_model = `echo $current_dir | sed "s/.*\/$_DEFAULT_MODEL/$_DEFAULT_MODEL/g"`
+	else
+		echo -e "$RED Error: Invalid file - $location/$update_file not exist!$NC"
+		echo -e -n "Do you want to check it out now?$CYAN[y/n]$NC"
+		read is_check
+	fi
+fi
+
+echo ori_location
+echo cvs_model
+exit
+
+if [ ! -d "$tmp_dir" ]; then
+	mkdir -p "$tmp_dir"
+	chmod 777 -R "$tmp_dir"
+fi
+
+if [ ! -f $tmp_dir/uplog ];
+then
+	touch $tmp_dir/uplog
+fi
+
+cat > $tmp_dir/run-scratch-auto-pwd <<EOD
+#!/usr/bin/expect
+
+spawn $tmp_dir/scratch1
+expect "password:"
+send "$password\r"
+expect eof
+EOD
+chmod 700 $tmp_dir/run-scratch-auto-pwd
+
+#If the file dose not exist check the control server.
+if [ $is_check=='y' ]; then
+	cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cd $ori_location
+echo -e "cvs co $CYAN$_DEFAULT_MODEL/$update_file$NC"
+cvs co $_DEFAULT_MODEL/$update_file
+EOD
+	chmod 700 $tmp_dir/scratch1
+	$tmp_dir/run-scratch-auto-pwd
+fi
+
+#Check status of file.
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cvs status -v $update_file > $tmp_dir/cvs_version_list_tmp
+EOD
+chmod 700 $tmp_dir/scratch1 
+
+#1st exec
+cd $location
+$tmp_dir/run-scratch-auto-pwd
+
+echo Automatic sign-in please waiting for a while ... \r
+echo -e "Lastest version of"$CYAN $update_file"$NC,please chose one:"
+cat $tmp_dir/cvs_version_list_tmp | sed -n '11,$p;' | sed -n '1,10p;' | sed 's/^\s*//g' > $tmp_dir/version_list_first_10
+cat -n $tmp_dir/version_list_first_10
+echo -n -e "Please chose one branch $CYAN[1-10]:$NC"
+read version
+file_version=`awk -vversion="$version" -F '\t' 'NR==version {print $1}' $tmp_dir/version_list_first_10 | sed 's/\s//g'`
+
+echo -e "cvs update -j $CYAN$file_version $update_file$NC"
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cd $location
+cvs update -j $file_version $update_file
+EOD
+
+cd $location
+$tmp_dir/run-scratch-auto-pwd > $tmp_dir/update_result
+$tmp_dir/scratch2
+exit
+cat $tmp_dir/update_result | egrep 'Merging' | awk -v loc=$location -v file=$update_file -v usr=$username -F ' ' '{print usr":"loc"/"file"(v"$6")"}' >> $tmp_dir/uplog
+
+if cat $tmp_dir/update_result | grep 'conflicts' > /dev/null
+then
+	echo -e "$RED Error: "
+	tail -2 $tmp_dir/update_result
+	echo -n -e $NC"Would you like delete this file and retry?[y/n]"
+	read isRetry
+	if [ $isRetry == 'n' ];then
+		exit
+	fi
+	echo -n -e $CYAN"Execute sudo command "
+	sudo rm -rf $location/$update_file
+	echo -e $NC
+	$tmp_dir/run-scratch-auto-pwd
+fi
+exit
+fi
+
+cat $tmp_dir/update_result

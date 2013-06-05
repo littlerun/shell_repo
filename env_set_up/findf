@@ -1,0 +1,20 @@
+#!/bin/sh
+
+
+file_name=$1
+location=$2
+
+if [ "${location}" = "dev" ]; then
+location=/var/www/html/ptt/App
+fi
+
+if [ "${location}" = "stage" ]; then
+location=/var/www/html/PTTStage/App
+fi
+
+if [ -z $location ]; then
+location=/var/www/html/PTTStage/App
+fi
+
+echo "find $location | grep $file_name --color"
+find "$location" | grep "$file_name" --color

@@ -1,0 +1,127 @@
+==== Useful bash aliases on PTT development and stage envirment ====
+
+
+===== The useful long path =====
+
+There are some paths that I often change to that seem to take eons to type. So I added the following aliases:
+
+<source>
+    alias gostage="cd /var/www/html/PTTStage/App"
+    alias godev="cd /var/www/html/dev"
+</source>
+
+===== CVS assistant alias =====
+
+The alias to a CVS assistant script,you can click here to find the CVS assistant scripts,it could help us update CVS code to server without typing password each time.
+
+<source>
+	alias u=~/upf
+</source>
+
+<syntaxhighlight lang="bash" line start="1" enclose="div">
+	find ./ -name "upf
+</syntaxhighlight>
+
+===== Search the specified file or dir alias =====
+
+<source>
+    alias wf=~/findf
+</source>
+
+The findf script defined as follow:
+<syntaxhighlight lang="bash" line start="1" enclose="div">
+#!/bin/sh
+find ./ -name "$1"
+</syntaxhighlight>
+
+===== Search the specified contents =====
+
+<source>
+    alias f=~/findc
+<source>
+
+The findc script defined as follow:
+<syntaxhighlight lang="bash" line start="1" enclose="div">
+#!/bin/sh
+_DEV_LOC=/var/www/html/dev
+_STAGE_LOC=/var/www/html/PTTStage/App
+
+key_string=$1
+location=$3
+filter_string=$2
+
+if [ "${location}" = "dev" ]; then
+	location=$_DEV_LOC
+fi
+
+if [ "${location}" = "stage" ]; then
+	location=$_STAGE_LOC
+fi
+
+if [ -z $location ]; then
+	location=./
+fi
+
+
+if [ -z $filter_string ]; then
+	grep -i "$key_string" $location -R -n > ~/temp_for_find_file
+else
+	grep -i "$key_string" $location -R -n | grep -v "$filter_string" > ~/temp_for_find_file
+fi
+
+</syntaxhighlight>
+
+===== The php error logs =====
+
+We can following the growth of php log file to find out the bug information
+ 
+Waiting the growth of php log file and then match the specified key word:
+<source>
+    alias phplog="tailf /usr/local/zend/var/log/php.log | grep -i"
+</source>
+
+Matching the error details:
+
+<source>
+    alias phploge="tailf /usr/local/zend/var/log/php.log | grep error -r -n --color --before 10 --after 10"
+</source>
+
+<source>
+alias phploges="tail -1000 /usr/local/zend/var/log/php.log | grep error -r -n --color --before 10 --after 10"
+</source>
+
+===== The weekly tag alias =====
+
+After weekly publishing,we need to go back to pttdev2 server and add a weekly tag,such as
+<source>
+    #cvs rtag T110321_Release_Weekly track 
+</source>
+The above command can be defined as an alias and calculate tag date automaticlly: 
+<source>
+    alias rtoday_track="cvs rtag T`date +%y%m%d`_Release_Weekly track"
+</source>
+
+===== The ssh alias =====
+
+This one should be a no-brainer for those of you who frequently secure shell into particular boxes. For this I add an alias like so:
+<source>
+    alias server_name='ssh -v -l USERNAME IP ADDRESS'
+</source>
+Just change server_name to a memorable name for the server. Then, change USERNAME and IP ADDRESS to suit your needs such as
+<source>
+    alias gop="ssh zhangsong@ptt.dst.ibm.com"
+</source>
+
+===== Find the code merge conflicts alias =====
+
+<source>
+    alias cc="f \<\<\<\<\<\<"
+    alias cce="f \>\>\>\>\>\>"
+</source>
+
+===== The php-cli alias =====
+
+<source>
+    alias php="/usr/local/zend/gui/lighttpd/sbin/php"
+</source>
+

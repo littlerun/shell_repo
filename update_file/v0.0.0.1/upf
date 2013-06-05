@@ -1,0 +1,112 @@
+#!/bin/sh
+
+update_file=$1
+location=$2
+password=$3
+file_version=1.417.14.2
+
+if [ "${location}" = "dev" ]; then
+location=/var/www/html/ptt/App/track
+fi
+
+if [ "${location}" = "stage" ]; then
+location=/var/www/html/pttstage2/App/track
+fi
+
+if [ -z $location ]; then
+location=/var/www/html/pttstage2/App/track
+fi
+
+if [ -z $password ]; then
+password=zhangsong123
+fi
+
+if ls "$location/$update_file" 2> /tmp/error
+echo "Error: Inviled file:$update_file"
+exit
+fi
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+cat > /tmp/scratch1 <<EOD
+#!/bin/sh
+cvs update -j $file_version $update_file
+EOD
+chmod 700 /tmp/scratch1
+cat > /tmp/scratch1 <<EOD
+#!/bin/sh
+cvs status -v $update_file > /tmp/cvs_version_list_tmp
+EOD
+chmod 700 /tmp/scratch1 
+cat > /tmp/scratch2 <<EOD
+#!/usr/bin/expect
+
+spawn /tmp/scratch1
+expect "password:"
+send "$password\r"
+expect eof
+EOD
+chmod 700 /tmp/scratch2
+
+cat > /tmp/version_no <<EOD
+ 1)
+ 2)
+ 3)
+ 4)
+ 5)
+EOD
+chmod 700 /tmp/version_no
+
+cd $location
+/tmp/scratch2
+echo Automatic sign-in please waiting for a while ... \r
+echo -e "Lastest version of"$CYAN $update_file"$NC,please chose one:"
+#cat /tmp/cvs_version_list_tmp | egrep '([0-9]\.[0-9])+' | grep -v '^head:.*$' | awk -F ":" '{print $2}' | sort -r | uniq | head -5
+cat /tmp/cvs_version_list_tmp | sed -n '11,15p;'|sed 's/^\s*//g' > /tmp/version_list_first_5
+paste -d ' ' /tmp/version_no /tmp/version_list_first_5
+echo -n -e "  please chose one branch $CYAN[1-5]:$NC"
+read version
+file_version=`awk -vversion="$version" -F '\t' 'NR==version {print $1}' /tmp/version_list_first_5 | sed 's/\s//g'`
+
+echo -e "cvs update -j $CYAN$file_version $update_file$NC"
+cat > /tmp/scratch1 <<EOD
+#!/bin/sh
+cvs update -j $file_version $update_file
+EOD
+
+
+cd $location
+/tmp/scratch2
+
+exit
+
+cvs log -w $src_file > ~/cvs_list_result.temp
+
+cat ~/cvs_list_result.temp | egrep '([0-9]\.[0-9])+' | grep -v '^head:.*$' | awk -F ": " '{print $2}' | sort -r | uniq > version_list_result_temp
+
+touch diffs
+
+while read LINE
+do
+# skip blank lines
+if [ "${LINE}" = "" ]; then
+continue
+fi
+version=$LINE
+
+if [ -n $prev_version ]
+then
+echo "cvs diff -c -r $version -r $prev_version $src_file"
+cvs diff -c -r $version -r $prev_version $src_file >> ~/cvs_diffs 2>> ~/cvs_errors
+fi
+prev_version=$version
+done < version_list_result_temp
+
+#cat diffs | grep $key_string

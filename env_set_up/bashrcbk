@@ -1,0 +1,32 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+CVSSERV=gswtt01.cloud.dst.ibm.com
+CVSROOT=:ext:zhsongdl@gswtt01.cloud.dst.ibm.com:/home/cvsroot CVS_RSH=ssh;
+export CVSROOT CVS_RSH
+# User specific aliases and functions
+alias gostage="cd /var/www/html/PTTStage/App"
+alias godev="cd /var/www/html/dev"
+alias u=~/upf
+alias wf=~/findf
+alias cmtf=~/cmtf
+alias f=~/findc
+alias phplog="tailf /usr/local/zend/var/log/php.log | grep"
+alias phploge="tailf /usr/local/zend/var/log/php.log | grep error -r -n --color --before 10 --after 10"
+alias phploges="tail -1000 /usr/local/zend/var/log/php.log | grep error -r -n --color --before 10 --after 10"
+alias vip=~/vip
+alias ckh=~/ckh.sh
+alias cc="f \<\<\<\<\<\<"
+alias cce="f \>\>\>\>\>\>"
+alias php="/usr/local/zend/gui/lighttpd/sbin/php"
+alias gop="ssh zhangsong@ptt.dst.ibm.com"
+alias rtoday_track="cvs rtag T`date +%y%m%d`_Release_Weekly track"
+alias rtoday_tsl="cvs rtag T`date +%y%m%d`_Release_Weekly tsl"
+alias rsync_track='rsync -avz --exclude="CVS" --exclude="*/CVS" ~/HEAD/track/ zhangsong@ptt.dst.ibm.com:/home/zhangsong/track/'
+alias rsync_tsl='rsync -avz --exclude="CVS" --exclude="*/CVS" ~/HEAD/tsl/ zhangsong@ptt.dst.ibm.com:/home/zhangsong/tsl/'
+export D='/var/www/html/dev'
+export S='/var/www/html/PTTStage/App'

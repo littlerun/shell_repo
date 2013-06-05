@@ -1,0 +1,123 @@
+#!/bin/sh
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+update_file=$1
+location=$3
+commit_log=$2
+password=$4
+file_version=1.417.14.2
+username=`whoami`
+current_dir=`pwd`
+tmp_dir=~/upf_tmp_dir
+
+
+
+
+if [ "${location}" = "dev" ]; then
+location=/var/www/html/ptt/App/track
+fi
+
+if [ "${location}" = "stage" ]; then
+location=/var/www/html/PTTStage/App/track
+fi
+
+if [ -z $location ]; then
+location=/var/www/html/PTTStage/App/track
+fi
+
+if [ -z $password ]; then
+password=zhangsong123
+fi
+
+if [ -z "$commit_log" ]; then
+commit_log="Commit with no commit message."
+fi
+
+if [ ! -f "$location/$update_file" ];
+then
+if [ -f "$current_dir/$update_file" ];
+then
+location=$current_dir
+else
+echo -e "$RED Error: Invalid file - $location/$update_file not exist!$NC"
+exit
+fi
+fi
+
+if [ ! -d "$tmp_dir" ]; then
+mkdir -p "$tmp_dir"
+chmod 777 -R "$tmp_dir"
+exit
+fi
+
+if [ ! -f $tmp_dir/uplog ];
+then
+touch $tmp_dir/uplog
+fi
+
+
+chmod 700 $tmp_dir/scratch1
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cvs status -v $update_file > $tmp_dir/cvs_version_list_tmp
+EOD
+chmod 700 $tmp_dir/scratch1 
+cat > $tmp_dir/scratch2 <<EOD
+#!/usr/bin/expect
+
+spawn $tmp_dir/scratch1
+expect "password:"
+send "$password\r"
+expect eof
+EOD
+chmod 700 $tmp_dir/scratch2
+
+cat > $tmp_dir/version_no <<EOD
+ 1)
+ 2)
+ 3)
+ 4)
+ 5)
+ 6)
+ 7)
+ 8)
+ 9)
+EOD
+chmod 700 $tmp_dir/version_no
+
+cd $location
+$tmp_dir/scratch2
+echo Automatic sign-in please waiting for a while ... \r
+echo -e "Lastest version of"$CYAN $update_file"$NC,please chose one:"
+#cat $tmp_dir/cvs_version_list_tmp | egrep '([0-9]\.[0-9])+' | grep -v '^head:.*$' | awk -F ":" '{print $2}' | sort -r | uniq | head -9
+cat $tmp_dir/cvs_version_list_tmp | sed -n '11,19p;'|sed 's/^\s*//g' > $tmp_dir/version_list_first_5
+paste -d ' ' $tmp_dir/version_no $tmp_dir/version_list_first_5
+echo -n -e "Please chose one branch $CYAN[1-9]:$NC"
+read version
+file_version=`awk -vversion="$version" -F '\t' 'NR==version {print $1}' $tmp_dir/version_list_first_5 | sed 's/\s//g'`
+
+echo -e "cvs update -j $CYAN$file_version $update_file$NC"
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cd $location
+cvs commit -m \"$commit_log\" -r $file_version $update_file
+EOD
+
+
+cd $location
+#$tmp_dir/scratch2 > $tmp_dir/update_result
+#$tmp_dir/scratch2
+
+echo -e "cvs commit -m $CYAN\"$commit_log\"$NC -r $CYAN$file_version $update_file$NC"
+
+echo -e "cvs commit -r $CYAN$file_version $update_file$NC"
+
+exit

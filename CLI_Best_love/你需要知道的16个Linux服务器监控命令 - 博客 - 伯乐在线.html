@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://blog.jobbole.com/15430/ -->
+<html dir="ltr" lang="zh-CN"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta property="wb:webmaster" content="317b4a9e2c59791d">
+<title>你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/style.css">
+<link rel="pingback" href="http://blog.jobbole.com/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://blog.jobbole.com/wp-content/themes/jobbole/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="博客 - 伯乐在线 下一页 » Feed" href="http://blog.jobbole.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="博客 - 伯乐在线 下一页 » 评论Feed" href="http://blog.jobbole.com/comments/feed/">
+				
+	<script type="text/javascript" async="" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/pYSn2iGCPLpy4IxWxLOg.js"></script><script type="text/javascript" async="" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/ga.js"></script><script type="text/javascript">//<![CDATA[
+	// Google Analytics for WordPress by Yoast v4.2.3 | http://yoast.com/wordpress/google-analytics/
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount','UA-15621043-1']);
+	_gaq.push(['_setCustomVar',2,'post_type','post',3],['_setCustomVar',3,'author','童海波',3],['_setCustomVar',4,'tags','linux %e5%91%bd%e4%bb%a4 %e6%9c%8d%e5%8a%a1%e5%99%a8',3],['_setCustomVar',5,'year','2012',3],['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	//]]></script>
+<link rel="alternate" type="application/rss+xml" title="博客 - 伯乐在线 下一页 » 你需要知道的16个Linux服务器监控命令 订阅评论" href="http://blog.jobbole.com/15430/feed/">
+<link rel="stylesheet" id="wp125style-css" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/wp125.css" type="text/css" media="all">
+<link rel="stylesheet" id="lightboxStyle-css" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/colorbox.css" type="text/css" media="screen">
+<link rel="stylesheet" id="core3.0-css" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shCore.css" type="text/css" media="all">
+<link rel="stylesheet" id="core-Default3.0-css" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shCoreDefault.css" type="text/css" media="all">
+<link rel="stylesheet" id="theme-Default3.0-css" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shThemeDefault.css" type="text/css" media="all">
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/l10n.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/jquery.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/comment-reply.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.jobbole.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.jobbole.com/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="博客 – 伯乐在线" href="http://blog.jobbole.com/">
+<link rel="start" title="职业笔译的高手之路" href="http://blog.jobbole.com/264/">
+<link rel="prev" title="林之晨：趁你还年轻，来学点程序吧！" href="http://blog.jobbole.com/14988/">
+<link rel="next" title="程杰：技术文章如何才能有较好的阅读体验" href="http://blog.jobbole.com/15458/">
+<meta name="generator" content="WordPress 3.2.1">
+<link rel="shortlink" href="http://blog.jobbole.com/?p=15430">
+
+<!-- All in One SEO Pack 1.6.14.5 by Michael Torbert of Semper Fi Web Design[472,558] -->
+<meta name="description" content="如果你想知道你的服务器正在做干什么，你就需要了解一些基本的命令，一旦你精通了这些命令，那你就是一个 专业的">
+<meta name="keywords" content="linux,命令,服务器,it技术">
+<link rel="canonical" href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线.html">
+<!-- /all in one seo pack -->
+
+<!-- Comment Rating plugin Version: 2.9.32 by Bob King, http://wealthynetizen.com/, dynamic comment voting & styling. --> 
+<style type="text/css" media="screen">
+   .ckrating_highly_rated {background-color:#FFFFCC !important;}
+   .ckrating_poorly_rated {opacity:0.6;filter:alpha(opacity=60) !important;}
+   .ckrating_hotly_debated {background-color:#FFF0F5 !important;}
+</style>
+
+
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code Begin -->
+<style type="text/css">
+.syntaxhighlighter,
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea {
+font-size: 12px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.syntaxhighlighter table caption {
+/* For Title(Caption) */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.syntaxhighlighter.nogutter td.code .line {
+/* Set the left padding space when no-gutter in ver. 3.0 */  
+padding-left: 3px !important;
+}
+.syntaxhighlighter {
+/* For Chrome/Safari(WebKit) */  
+/* Hide the superfluous vertical scrollbar in ver. 3.0 */  
+overflow-y: hidden !important;
+padding: 1px !important;
+}
+.widget-area.syntaxhighlighter a,
+.widget-area.syntaxhighlighter div,
+.widget-area.syntaxhighlighter code,
+.widget-area.syntaxhighlighter table,
+.widget-area.syntaxhighlighter table td,
+.widget-area.syntaxhighlighter table tr,
+.widget-area.syntaxhighlighter table tbody,
+.widget-area.syntaxhighlighter table thead,
+.widget-area.syntaxhighlighter table caption,
+.widget-area.syntaxhighlighter textarea {
+/* For Widget */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.widget-area table caption {
+/* For Widget */  
+/* For Title(Caption) */  
+font-size: 10px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+</style>
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code End -->
+<link rel="shortcut icon" href="http://blog.jobbole.com/wp-content/themes/jobbole/images/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/jquery(1).js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/tab-script.js"></script>
+<script language="javascript"> 
+function toggle() {
+	var ele = document.getElementById("toggleText");
+	var text = document.getElementById("displayText");
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+		text.innerHTML = "show";
+  	}
+	else {
+		ele.style.display = "block";
+		text.innerHTML = "hide";
+	}
+} 
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/dropdowntabs.js"></script>
+
+
+
+<script type="text/javascript" async="" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bsa.js"></script><style type="text/css">div#captchaImgDiv { display:block; }.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }label#captcha_code_label { margin:0; }input#captcha_code { width:65px; }</style><script type="text/javascript" id="_bsap_js_bbd562fdb95767addfc86cf676c57b71" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/s_bbd562fdb95767addfc86cf676c57b71.js" async="async"></script><style type="text/css" media="print">#uvTab {display:none !important;}</style><style type="text/css" id="bsa_css">div.bsap_1269140{width:100%;display:block}div.bsap_1269140 a{width:728px}div.bsap_1269140 a img{padding:0}div.bsap_1269140 a em{font-style:normal}div.bsap_1269140 a{display:block;font-size:11px;color:#888;font-family:verdana,sans-serif;margin:0;text-align:center;text-decoration:none;overflow:hidden;float:left;}div.bsap_1269140 img{border:0;clear:right;}div.bsap_1269140 a.adhere{color:#666;font-weight:bold;font-size:12px;border:1px solid #ccc;background:#e7e7e7;text-align:center;}div.bsap_1269140 a.adhere:hover{border:1px solid #999;background:#ddd;color:#333;}div.bsap_1269140 a{line-height:100%}div.bsap_1269140 a.adhere{width:728px;height:90px;line-height:720%}html>body div.bsap_1269140 a.adhere{width:726px;height:88px}div.bsap_1269140 img.s{height:0;width:0}div.bsap_1269141{width:100%;display:block}div.bsap_1269141 a{width:260px}div.bsap_1269141 a img{padding:0}div.bsap_1269141 a em{font-style:normal}div.bsap_1269141 a{display:block;font-size:11px;color:#888;font-family:verdana,sans-serif;margin:0;text-align:center;text-decoration:none;overflow:hidden;float:left;}div.bsap_1269141 img{border:0;clear:right;}div.bsap_1269141 a.adhere{color:#666;font-weight:bold;font-size:12px;border:1px solid #ccc;background:#e7e7e7;text-align:center;}div.bsap_1269141 a.adhere:hover{border:1px solid #999;background:#ddd;color:#333;}div.bsap_1269141 a{line-height:100%}div.bsap_1269141 a.adhere{width:260px;height:260px;line-height:2080%}html>body div.bsap_1269141 a.adhere{width:258px;height:258px}div.bsap_1269141 img.s{height:0;width:0}</style></head>
+
+<body><div id="uvTab" style="background-image: url(http://widget.uservoice.com/images/clients/widget2/tab-left-dark.png); background-attachment: initial; background-origin: initial; background-clip: initial; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-top-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-image: initial; border-left-style: none; border-left-width: initial; border-left-color: initial; border-top-left-radius: 0px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 0px; -webkit-box-shadow: rgba(255, 255, 255, 0.246094) 1px 1px 1px inset, rgba(0, 0, 0, 0.496094) 0px 1px 2px; box-shadow: rgba(255, 255, 255, 0.246094) 1px 1px 1px inset, rgba(0, 0, 0, 0.496094) 0px 1px 2px; font-family: Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 1em; position: fixed; left: 0px; top: 50%; z-index: 9999; background-color: rgb(37, 197, 233); margin-top: -60px; display: block; margin-left: 0px; background-position: 50% 0px; background-repeat: no-repeat no-repeat; "><a id="uvTabLabel" style="background-color: transparent; display:block;padding:39px 5px 10px 5px;text-decoration:none;" href="javascript:return false;"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/feedback-tab.png" alt="读者反馈" style="border:0; background-color: transparent; padding:0; margin:0;"></a></div>
+<!-- BuySellAds.com Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds.com Ad Code -->
+
+<div id="main-wrapper">
+	<div id="wrapper">
+		<div id="header">
+			<div id="logo"><a href="http://blog.jobbole.com/"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/jobbole-blog-logo.png" width="137" height="85" alt="伯乐在线博客" title="伯乐在线博客"></a></div><!-- LOGO -->
+			<div id="top-tag">
+<ul>
+<li><iframe width="136" height="20" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/followbutton.html"></iframe>
+</li>
+<li>博文热点：</li>
+<li><a href="http://blog.jobbole.com/category/weekly">伯乐周刊</a></li>
+<li><a href="http://blog.jobbole.com/category/resources/">资源</a></li>
+<li><a href="http://blog.jobbole.com/tag/%E7%A8%8B%E5%BA%8F%E5%91%98/">程序员</a></li>
+<li><a href="http://blog.jobbole.com/category/freelance/">自由职业者</a></li>
+<li><a href="http://blog.jobbole.com/tag/%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1/">设计</a></li>
+<li><a href="http://blog.jobbole.com/tag/%E8%90%A5%E9%94%80/">营销</a></li>
+<li><a href="http://blog.jobbole.com/tag/%E9%9D%A2%E8%AF%95/">面试</a></li>
+<li><a href="http://blog.jobbole.com/tag/%E5%88%9B%E4%B8%9A/">创业</a></li>
+<li><a href="http://blog.jobbole.com/tag/HTML5/">HTML5</a></li>
+<li><a href="http://blog.jobbole.com/tag/Javascript/">JS</a></li>
+</ul>
+</div>
+			
+			<div id="top-links">
+                
+<div class="login-reg">
+<img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/login-icon.png" width="13" height="12" alt="Login"> 
+<a href="http://blog.jobbole.com/wp-admin">登录</a> / <a href="http://blog.jobbole.com/wp-login.php?action=register">注册</a>
+</div>
+
+			</div>
+			<div id="nav"> 
+				<ul>
+                                        <!-- li><a  target="_blank" href="http://forum.jobbole.com">论坛</a></li -->
+                                        <li><a style="color:#8f2225" href="http://blog.jobbole.com/tougao/"><b>分享原创/译文</b></a></li>
+                                        <li><a href="http://blog.jobbole.com/contact-us/">广告</a></li>
+                                        <li><a href="http://blog.jobbole.com/contact-us/">联系我们</a></li>
+				</ul>
+			</div><!-- END: Main Navigation -->
+
+<!-- BuySellAds.com Zone Code -->
+<div id="bsap_1269140" class="bsap_1269140 bsap"></div>
+<!-- End BuySellAds.com Zone Code -->
+
+			<div class="top-banner"><aside id="text-3" class="widget widget_text"><h3 class="widget-title">博客头部横幅728×90</h3>			<div class="textwidget"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-7056282119617872";
+google_ad_slot = "3173555691";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><iframe allowtransparency="true" frameborder="0" height="90" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+=&#39;.call&#39;;setTimeout(h,0)}else if(h.match){i+=&#39;.nav&#39;;w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" scrolling="no" vspace="0" width="728" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins></div>
+		</aside></div>
+			
+								<div id="social-media">
+					<strong></strong>
+					<ul>
+
+<li><a href="http://weibo.com/jobbole" rel="nofollow" target="_blank" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sina_32.png" width="32" height="32" alt="关注我们的新浪微博" title="关注我们的新浪微博"></a></li>
+
+						<li><a href="http://t.qq.com/jobole" rel="nofollow" target="_blank" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/qq_32.png" width="32" height="32" alt="关注我们的腾讯微博" title="关注我们的腾讯微博"></a></li>
+
+						<li><a target="_blank" href="http://blog.jobbole.com/feed/"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/rss_32.png" width="32" height="32" alt="RSS订阅" title="RSS订阅"></a></li>
+
+						<li><a target="_blank" href="http://list.qq.com/cgi-bin/qf_invite?id=f12eb90e095ea83b9c0683e2822949378899f8628c96050b" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/email_32.png" width="32" height="32" alt="邮件订阅" title="邮件订阅"></a></li>
+
+<!-- li><a  href="https://plus.google.com/112828499918286157179" rel="nofollow" target="_blank" class="external"><img src="http://blog.jobbole.com/wp-content/themes/jobbole/images/google_plus_32.png" width="32" height="32" alt="关注我们的Google Plus" title="关注我们的Google Plus" /></a></li -->
+
+<!-- li><a  href="http://twitter.com/jobbole" rel="nofollow" target="_blank" class="external"><img src="http://blog.jobbole.com/wp-content/themes/jobbole/images/twitter_32.png" width="32" height="32" alt="关注我们的Twitter" title="关注我们的Twitter" /></a></li -->
+
+<!-- li><a  href="http://facebook.com/jobbole" rel="nofollow" target="_blank" class="external"><img src="http://blog.jobbole.com/wp-content/themes/jobbole/images/facebook_32.png" width="32" height="32" alt="关注我们的Facebook" title="关注我们的Facebook" /></a></li -->
+
+					</ul>
+				</div><!-- END: Social Media -->
+
+		</div><!-- END: Header -->
+		<div id="canvas">
+			<div id="container">
+				<div id="tabs">
+                <div id="colortab" class="ddcolortabs">
+					<ul>
+                        <li><a href="http://blog.jobbole.com/"><span>全部文章</span></a></li>
+                        							<li class=" selected default"><a href="http://blog.jobbole.com/category/news/"><span>资讯</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/programmer/"><span>程序员</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/design/"><span>设计</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/freelance/"><span>自由职业</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/marketing/"><span>营销</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/internet/"><span>互联网</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/startup/"><span>创业</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/management/"><span>管理</span></a> </li>
+														<li><a href="http://blog.jobbole.com/category/operation/"><span>运营</span></a> </li>
+													<li class="tab-arrow"><a href="http://blog.jobbole.com/15430/#" rel="dropmenu1_a"><span>更多 <img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/tab-arrow.png" alt="" width="6" height="6"></span></a>
+								<div id="dropmenu1_a" class="dropmenudiv_a">
+                                   <a href="http://blog.jobbole.com/category/books/">书籍与教程</a><a href="http://blog.jobbole.com/category/resources/">资源</a><a href="http://blog.jobbole.com/category/weekly/">伯乐周刊</a><a href="http://blog.jobbole.com/category/translation/">翻译</a><a href="http://blog.jobbole.com/category/humanresource/">人力资源</a><a href="http://blog.jobbole.com/category/office/">办公室</a><a href="http://blog.jobbole.com/category/it-tech/">IT技术</a><a href="http://blog.jobbole.com/category/insurance/">保险</a><a href="http://blog.jobbole.com/category/other/">其他</a>								</div>
+								<script type="text/javascript">
+									//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+									tabdropdown.init("colortab", 1)
+								</script>
+							</li>
+					</ul>
+                    </div>
+				</div><!-- END: Tabs --><div id="main">
+  
+					<h1 class="posted-title">
+  你需要知道的16个Linux服务器监控命令</h1>
+<p class="posted-single">
+  发布时间：2012-03-15 11:02&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <span class="cm-text">来源：<a target="_blank" href="http://www.oschina.net/question/12_44528" class="external" rel="nofollow">oschina</a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <span class="cm-text">分类：
+  <a href="http://blog.jobbole.com/category/it-tech/" title="显示IT技术的所有日志" rel="category tag">IT技术</a>  </span>
+    <span class="comments">
+  <a href="http://blog.jobbole.com/15430/#respond" class="comments-link" title="“你需要知道的16个Linux服务器监控命令”的评论">都等你发言 :)</a>  </span>
+  </p>
+<div class="social-single-top">
+<div id="sharebutton" style="padding-top:1px;">分享到：</div>
+
+<div id="sharebutton"><script type="text/javascript" charset="utf-8">
+(function(){
+  var _w = 55 , _h = 16;
+  var param = {
+    url:location.href,
+    type:'3',
+    count:'1', 
+    appkey:'2606191112',
+    title:'',
+    pic:'', 
+    ralateUid:'1670481425', 
+	language:'zh_cn', 
+    rnd:new Date().valueOf()
+  }
+  var temp = [];
+  for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+  }
+  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+})()
+</script><iframe allowtransparency="true" frameborder="0" scrolling="no" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/weiboshare.html" width="55" height="16"></iframe></div>
+
+<!-- script type="text/javascript">
+window.___gcfg = {lang: 'zh-CN'};
+(function()
+{var po = document.createElement("script");
+po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(po, s);
+})();</script -->
+
+<!-- div id="sharebutton" style="width:50px; height:20px;">
+<g:plusone size="small" href="http://blog.jobbole.com/15430/"></g:plusone>
+</div -->
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_qzone.png" alt="分享到QQ空间" title="分享到QQ空间"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://v.t.qq.com/share/share.php?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_qq.png" alt="分享到腾讯微博" title="分享到腾讯微博"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://share.renren.com/share/buttonshare.do?link=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_renren.png" alt="分享到人人网" title="分享到人人网"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://www.facebook.com/share.php?u=http://blog.jobbole.com/15430/&t=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_facebook.png" alt="分享到Facebook" title="分享到Facebook"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://t.sohu.com/third/post.jsp?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_sohuz.png" alt="分享到搜狐微博" title="分享到搜狐微博"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://t.163.com/article/user/checkLogin.do?info=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20http://blog.jobbole.com/15430/%20%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarks_163_weibo.png" alt="分享到网易微博" title="分享到网易微博"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://www.douban.com/recommend/?url=http://blog.jobbole.com/15430/;title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_douban.png" alt="分享到豆瓣" title="分享到豆瓣"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://9.douban.com/recommend/?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_9dian.png" alt="分享到豆瓣9点" title="分享到豆瓣9点"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?to=pengyou&url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_pengyou.png" alt="分享到朋友" title="分享到朋友"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://www.kaixin001.com/repaste/share.php?rtitle=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B&rurl=http://blog.jobbole.com/15430/" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_kaixin.png" alt="分享到开心网" title="分享到开心网"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://cang.baidu.com/do/add?iu=http://blog.jobbole.com/15430/&it=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B&dc=&fr=ien#nw=1" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_baidu.gif" alt="分享到百度" title="分享到百度"></a></div>
+
+<div id="sharebutton"><a rel="nofollow" target="_blank" href="http://twitter.com/home?status=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20-%20http://blog.jobbole.com/15430/"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_twitter.gif" alt="分享到Twitter" title="分享到Twitter"></a></div>
+
+</div>
+
+<div class="entry-content">
+<div style=" margin:5px 0 5px 5px; float:right;">			<div class="textwidget"></div>
+		</div><p id="aeaoofnhgocdbnbeljkmbjdmhbcokfdb-mousedown">如果你想知道你的服务器正在做干什么，你就需要了解一些基本的命令，一旦你精通了这些命令，那你就是一个 专业的 Linux 系统管理员。</p>
+<p>有些 Linux 发行版会提供 GUI 程序来进行系统的监控，例如 SUSE Linux 就有一个非常棒而且专业的工具 YaST，KDE 的 KDE System Guard 同样很出色。当然，要使用这些工具，你必须在服务器跟前进行操作，而且这些 GUI 的程序占用了很多系统资源，所以说，尽管 GUI 用来做基本的服务器健康状态监测挺好，但如果你想知道真正发生什么，请关掉 GUI 开始命令行之旅吧。</p>
+<p>你应该只在需要的时候去启动 GUI ，不用的时候关掉它。如果要让服务器保持最佳性能，你应该将 Linux 服务器的运行级别 runlevel 设置为 3 ，就是控制台模式，当你需要图形化桌面的时候使用 startx 命令来启动它。</p>
+<p>如果你的服务器启动后就直接进入图形界面，你需要修改配置 /etc/inittab 找到 initdefault 一样，将 id:5:initdefault 修改为 id:3:initdefault。</p>
+<p>如果你没找到 /etc/inittab 文件，那就创建一个新的，文件内容增加 id:3 这么一行。这样下次服务器启动的时候就不会进入图形界面。如果你不想等到服务器重启的时候才生效，你可以执行 init 3 这个命令。</p>
+<p>一旦你的服务器是在控制台模式下运行，你就可以开始我们接下来的内容。</p>
+<p><strong>iostat</strong></p>
+<p><a href="http://www.cyberciti.biz/tips/linux-disk-performance-monitoring-howto.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.cyberciti.biz&#39;]);" rel="nofollow" target="_blank" class="external">iostat</a>&nbsp;命令用来显示存储子系统的详细信息，通常用它来监控磁盘 I/O 的情况。要特别注意 iostat 统计结果中的 %iowait 值，太大了表明你的系统存储子系统性能低下。</p>
+<p><strong>meminfo 和 free</strong></p>
+<p><a href="http://www.redhat.com/advice/tips/meminfo.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.redhat.com&#39;]);" rel="nofollow" target="_blank" class="external">Meminfo</a>&nbsp;可让你获取内存的详细信息，你可以使用 cat 和 grep 命令来显示 meminfo 信息：</p>
+<div><div id="highlighter_88154" class="syntaxhighlighter notranslate shell"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell functions">cat</code> <code class="shell plain">/proc/meminfo</code></div></div></td></tr></tbody></table></div></div>
+<p id="aeaoofnhgocdbnbeljkmbjdmhbcokfdb-mousedown">另外你可以使用 free 命令来显示动态的内存使用信息，free 只是给你大概的内存信息，而 meminfo 提供的信息更加详细。</p>
+<p><strong>mpstat</strong></p>
+<p><a href="http://linuxcommand.org/man_pages/mpstat1.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://linuxcommand.org&#39;]);" rel="nofollow" target="_blank" class="external">mpstat</a>&nbsp;mpstat是MultiProcessor Statistics的缩写，是实时系统监控工具。其报告与CPU的一些统计信息，这些信息存放在/proc/stat文件中。在多CPUs系统里，其不但能查看所有CPU的平均状况信息，而且能够查看特定CPU的信息。</p>
+<p><strong>netstat</strong></p>
+<p><a href="http://www.thegeekstuff.com/2010/03/netstat-command-examples/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.thegeekstuff.com&#39;]);" rel="nofollow" target="_blank" class="external">Netstat</a>&nbsp;和 ps 命令类似，是 Linux 管理员基本上每天都会用的工具，它显示了大量跟网络相关的信息，例如 socket 的使用、路由、接口、协议、网络等等，下面是一些常用的参数：</p>
+<div><div id="highlighter_763937" class="syntaxhighlighter notranslate bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">-a Show all socket information</code></div><div class="line number2 index1 alt1"><code class="bash plain">-r Show routing information</code></div><div class="line number3 index2 alt2"><code class="bash plain">-i Show network interface statistics</code></div><div class="line number4 index3 alt1"><code class="bash plain">-s Show network protocol statistics</code></div></div></td></tr></tbody></table></div></div>
+<p><strong>nmon</strong></p>
+<p><a href="http://nmon.sourceforge.net/pmwiki.php" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://nmon.sourceforge.net&#39;]);" rel="nofollow" target="_blank" class="external">Nmon</a>, 是 Nigel’s Monitor 的缩写，是一个使用很普遍的开源工具，用以监控 Linux 系统的性能。Nmon 监控多个子系统的性能数据，例如处理器的使用率、内存使用率、队列、磁盘I/O统计、网络I/O统计、内存页处理和进程信息。Nmon 也提供了一个图形化的工具：</p>
+<p style="text-align: center;"><a href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/16-Linux-Server-Monitoring-Commands-You-Really-Need-To-Know3.png" rel="lightbox[15430]" title="你需要知道的16个Linux服务器监控命令" class="cboxElement"><img class="aligncenter size-full wp-image-15434" title="你需要知道的16个Linux服务器监控命令" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/16-Linux-Server-Monitoring-Commands-You-Really-Need-To-Know3.png" alt="你需要知道的16个Linux服务器监控命令" width="532" height="341"></a></p>
+<p>要运行 nmon，你可以在命令行中启动它，然后选择要监控的子系统，这些子系统都对应有一个快捷键，例如输入 c 可查看 CPU 信息，m用于查看内存，d用来查看磁盘信息等，你也可以使用 -f 命令将 nmon 的执行结果保存到一个 CSV 文件中，便于日后分析。</p>
+<p>在每日的监控工作中，我发现 nmon 是我最常用的工具。</p>
+<p><strong>pmap</strong></p>
+<p><a href="http://linuxcommand.org/man_pages/mpstat1.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://linuxcommand.org&#39;]);" rel="nofollow" target="_blank" class="external">pmap</a>&nbsp;命令用来报告每个进程占用内存的详细情况，可用来看是否有进程超支了，该命令需要进程 id 作为参数。</p>
+<p><strong>ps 和 pstree</strong></p>
+<p><a href="http://www.linux.ie/newusers/beginners-linux-guide/ps.php" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.linux.ie&#39;]);" rel="nofollow" target="_blank" class="external">ps</a>&nbsp;和&nbsp;<a href="http://www.linfo.org/pstree.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.linfo.org&#39;]);" rel="nofollow" target="_blank" class="external">pstree</a>&nbsp;命令是 Linux 系统管理员最好的朋友，都可以用来列表正在运行的所有进程。ps 告诉你每个进程占用的内存和 CPU 处理时间，而 pstree 显示的信息没那么详细，但它以树形结构显示进程之间的依赖关系，包括子进程信息。一旦发现某个进程有问题，你可以使用&nbsp;<a href="http://linux.about.com/library/cmd/blcmdl_kill.htm" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://linux.about.com&#39;]);" rel="nofollow" target="_blank" class="external">kill</a>&nbsp;来杀掉它。</p>
+<p><strong>sar</strong></p>
+<p><a href="http://www.thegeekstuff.com/2011/03/sar-exampl" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.thegeekstuff.com&#39;]);" rel="nofollow" target="_blank" class="external">sar</a>&nbsp;程序是系统监控工具里的瑞士军刀。该程序包含三个工具：sar 用来显示数据，sa1 和 sa2 用来收集数据并保存。sar 可用来显示 CPU 使用率、内存页数据、网络 I/O 和传输统计、进程创建活动和磁盘设备的活动详情。sar 和 nmon 最大的不同就是 sar 跟适合用作长期的监控，而 nmon 可以让你快速的了解系统当前状态。</p>
+<p><strong>strace</strong></p>
+<p><a href="http://www.hokstad.com/5-simple-ways-to-troubleshoot-using-strace.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.hokstad.com&#39;]);" rel="nofollow" target="_blank" class="external">strace</a>&nbsp;经常被认为是<span class="wp_keywordlink"><a href="http://blog.jobbole.com/821/" title="程序员的本质">程序员</a></span>调试的工具，但不止如此。它可以记录进程进行系统调用的详情，因此它也是一个非常好的诊断工具，例如你可以使用它来找出某个程序正在打开某个配置文件。</p>
+<p>Strace 也有一个缺陷，但它在跟踪某个进程时会让该进程的性能变得非常差，因此请谨慎使用。</p>
+<p><strong>tcpdump</strong></p>
+<p><a href="http://danielmiessler.com/study/tcpdump/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://danielmiessler.com&#39;]);" rel="nofollow" target="_blank" class="external">Tcpdump</a>&nbsp;是一个简单、可靠的网络监控工具，用来做基本的协议分析，看看那些进程在使用网络以及如何使用网络。当然，如果你要获取跟详细的信息，你应该使用&nbsp;Wireshark&nbsp;(下面我们会介绍).</p>
+<p><strong>top</strong></p>
+<p><a href="http://adminlinux.blogspot.com/2009/06/how-do-i-use-linux-top-command.html" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://adminlinux.blogspot.com&#39;]);" rel="nofollow" target="_blank" class="external">top</a>&nbsp;命令显示当前的活动进程，默认它是按消耗 CPU 的厉害程度进行排序，每5秒钟刷新一次列表，你也可以选择不同的排序方式，例如 m 是按内存占用方式进行排序的快捷键。</p>
+<p><strong>uptime</strong></p>
+<p><a href="http://www.computerhope.com/unix/uptime.htm" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.computerhope.com&#39;]);" rel="nofollow" target="_blank" class="external">uptime</a>&nbsp;命令告诉你这台服务器从开机启动到现在已经运行了多长时间了。同时也包含了从启动到现在服务器的平均负载情况。</p>
+<p><strong>vmstat</strong></p>
+<p>你可以使用&nbsp;<a href="http://www.linuxjournal.com/article/8178" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.linuxjournal.com&#39;]);" rel="nofollow" target="_blank" class="external">vmstat</a>&nbsp;来监控虚拟内存，一般 Linux 上的开发者喜欢使用虚拟内存来获得最佳的存储性能。该命令报告关于内核线程、虚拟内存、磁盘、陷阱和 CPU 活动的统计信息。由 vmstat 命令生成的报告可以用于平衡系统负载活动。系统范围内的这些统计信息（所有的处理器中）都计算出以百分比表示的平均值，或者计算其总和。</p>
+<p><strong>Wireshark</strong></p>
+<p><a href="http://www.wireshark.org/" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://www.wireshark.org&#39;]);" rel="nofollow" target="_blank" class="external">Wireshark</a>, 前身是 Ethereal ，是一个网络协议检测程序，让您经由程序抓取运行的网站的相关资讯，包括每一封包流向及其内容、资讯可依操作系统语系看出,方便查看、监控TCP session动态等等.</p>
+<p style="text-align: center;"><a href="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/16-Linux-Server-Monitoring-Commands-You-Really-Need-To-Know6.png" rel="lightbox[15430]" title="你需要知道的16个Linux服务器监控命令" class="cboxElement"><img class="aligncenter size-full wp-image-15431" title="你需要知道的16个Linux服务器监控命令" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/16-Linux-Server-Monitoring-Commands-You-Really-Need-To-Know6.png" alt="你需要知道的16个Linux服务器监控命令" width="552" height="432"></a></p>
+<p id="aeaoofnhgocdbnbeljkmbjdmhbcokfdb-mousedown">这里罗列的是大多数最有价值的 Linux 监控程序，当然，你可能还会使用其他的工具，不妨跟大家分享下。</p>
+<p>英文原文&nbsp;<a href="http://h30565.www3.hp.com/t5/Feature-Articles/16-Linux-Server-Monitoring-Commands-You-Really-Need-To-Know/ba-p/1936" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;outbound-article&#39;,&#39;http://h30565.www3.hp.com&#39;]);" rel="nofollow" target="_blank" class="external">hp.com</a></p>
+</div>
+
+<div class="social-single">
+ 
+<div id="sharebutton" style="padding-top:1px;"><strong>分享到：</strong></div>
+
+<!-- div id="sharebutton" style="padding-top:1px;"><a rel='nofollow' target="_blank" href="http://v.t.sina.com.cn/share/share.php?url=http://blog.jobbole.com/15430/&title=推荐阅读《你需要知道的16个Linux服务器监控命令》 @伯乐在线官方微博"><img src="http://blog.jobbole.com/wp-content/themes/jobbole/images/bookmarksite_sina.png" alt="分享到新浪微博" title="分享到新浪微博" /></a></div -->
+
+<div id="sharebutton" style="padding-top:1px;"><script type="text/javascript" charset="utf-8">
+(function(){
+  var _w = 55 , _h = 16;
+  var param = {
+    url:location.href,
+    type:'3',
+    count:'1', 
+    appkey:'2606191112',
+    title:'',
+    pic:'', 
+    ralateUid:'1670481425', 
+	language:'zh_cn', 
+    rnd:new Date().valueOf()
+  }
+  var temp = [];
+  for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+  }
+  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+})()
+</script><iframe allowtransparency="true" frameborder="0" scrolling="no" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/weiboshare(1).html" width="55" height="16"></iframe></div>
+
+<!-- div id="sharebutton" style="width:50px; height:20px;">
+<g:plusone size="small" href="http://blog.jobbole.com/15430/"></g:plusone>
+</div -->
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_qzone.png" alt="分享到QQ空间" title="分享到QQ空间"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://v.t.qq.com/share/share.php?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_qq.png" alt="分享到腾讯微博" title="分享到腾讯微博"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://share.renren.com/share/buttonshare.do?link=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_renren.png" alt="分享到人人网" title="分享到人人网"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://www.facebook.com/share.php?u=http://blog.jobbole.com/15430/&t=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_facebook.png" alt="分享到Facebook" title="分享到Facebook"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://t.sohu.com/third/post.jsp?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_sohuz.png" alt="分享到搜狐微博" title="分享到搜狐微博"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://t.163.com/article/user/checkLogin.do?info=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20http://blog.jobbole.com/15430/%20%20@%E4%BC%AF%E4%B9%90%E5%9C%A8%E7%BA%BF"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarks_163_weibo.png" alt="分享到网易微博" title="分享到网易微博"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://www.douban.com/recommend/?url=http://blog.jobbole.com/15430/;title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_douban.png" alt="分享到豆瓣" title="分享到豆瓣"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://9.douban.com/recommend/?url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_9dian.png" alt="分享到豆瓣9点" title="分享到豆瓣9点"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?to=pengyou&url=http://blog.jobbole.com/15430/&title=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_pengyou.png" alt="分享到朋友" title="分享到朋友"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://www.kaixin001.com/repaste/share.php?rtitle=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B&rurl=http://blog.jobbole.com/15430/" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_kaixin.png" alt="分享到开心网" title="分享到开心网"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://cang.baidu.com/do/add?iu=http://blog.jobbole.com/15430/&it=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B&dc=&fr=ien#nw=1" class="external"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarksite_baidu.gif" alt="分享到百度" title="分享到百度"></a></div>
+
+<div id="sharebutton" style="padding-top:1px;"><a rel="nofollow" target="_blank" href="http://twitter.com/home?status=%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB%E3%80%8A%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%8416%E4%B8%AALinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4%E3%80%8B%20-%20http://blog.jobbole.com/15430/"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/bookmarkstie_twitter.gif" alt="分享到Twitter" title="分享到Twitter"></a></div>
+
+</div>
+
+<div class="mnbox">
+   <div class="mnbox-content">
+   伯乐在线博客传播最新的职业资讯和最有价值的职业分享，欢迎订阅哦。<br>如果您也愿意<a href="http://blog.jobbole.com/tougao"> 分享一份自己的原创/译文</a>，可以<a href="http://blog.jobbole.com/tougao"> 从这里开始</a>～<br>
+   <a target="_blank" href="http://www.google.com/ig/add?source=atgs&feedurl=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_google.gif"></a>
+
+   <a target="_blank" href="http://r.qq.com/cgi-bin/reader_switch?u=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_qq.gif"></a>
+
+   <a target="_blank" href="http://www.xianguo.com/subscribe.php?url=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_xianguo.gif"></a>
+
+   <a target="_blank" href="http://reader.youdao.com/b.do?url=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_youdao.gif"></a>
+
+<a target="_blank" href="http://www.zhuaxia.com/add_channel.php?url=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_zhaxia.gif"></a>
+
+<a target="_blank" href="http://9.douban.com/reader/subscribe?url=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_9dian.gif"></a>
+
+<a target="_blank" href="http://add.my.yahoo.com/rss?url=http://blog.jobbole.com/feed/" class="external" rel="nofollow"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sub_yahoo.gif"></a>
+
+   </div>
+</div>
+
+
+<!-- .entry-content -->
+<!-- div class="google-ads"><aside id="text-8" class="widget widget_text">			<div class="textwidget"></div>
+		</aside></div -->
+					
+                    							<div class="artbox">
+						    <div class="artbox-content">
+							<!-- h2>相关文章</h2 -->
+							<ul class="artlist">
+                                                        <h2 class="related_post_title">相关文章</h2><ul class="related_post"><li><a target="_blank" href="http://blog.jobbole.com/21294/" title="一次Linux服务器被hack的过程分析">一次Linux服务器被hack的过程分析</a></li><li><a target="_blank" href="http://blog.jobbole.com/18131/" title="8 个实用的 Linux netcat 命令示例">8 个实用的 Linux netcat 命令示例</a></li><li><a target="_blank" href="http://blog.jobbole.com/1574/" title="受够了Linux服务器 重返Windows">受够了Linux服务器 重返Windows</a></li><li><a target="_blank" href="http://blog.jobbole.com/23638/" title="28个Unix/Linux的命令行神器">28个Unix/Linux的命令行神器</a></li><li><a target="_blank" href="http://blog.jobbole.com/23144/" title="在 Linux 上构建一个 RADIUS 服务器">在 Linux 上构建一个 RADIUS 服务器</a></li><li><a target="_blank" href="http://blog.jobbole.com/22367/" title="最佳免费Linux RADIUS服务器推荐">最佳免费Linux RADIUS服务器推荐</a></li><li><a target="_blank" href="http://blog.jobbole.com/21741/" title="Linux中最受欢迎的邮件传输代理（MTA）">Linux中最受欢迎的邮件传输代理（MTA）</a></li><li><a target="_blank" href="http://blog.jobbole.com/22318/" title="使用Shell脚本对Linux系统和进程资源进行监控">使用Shell脚本对Linux系统和进程资源进行监控</a></li><li><a target="_blank" href="http://blog.jobbole.com/22044/" title="8 个优秀的 Linux 图形图像及色彩工具">8 个优秀的 Linux 图形图像及色彩工具</a></li><li><a target="_blank" href="http://blog.jobbole.com/20382/" title="5种流行的Linux发行版：选择你喜欢的Linux">5种流行的Linux发行版：选择你喜欢的Linux</a></li></ul>										</ul></div></div>
+					
+<div style="clear:both"></div><div class="googlead-second">			<div class="textwidget"></div>
+		</div><div class="tagslinks">标签:<a href="http://blog.jobbole.com/tag/linux/" rel="tag">Linux</a> <a href="http://blog.jobbole.com/tag/%e5%91%bd%e4%bb%a4/" rel="tag">命令</a> <a href="http://blog.jobbole.com/tag/%e6%9c%8d%e5%8a%a1%e5%99%a8/" rel="tag">服务器</a><br> </div>
+
+						<div id="comments">
+	
+	
+	
+<div>
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&border=1&fontsize=12&skin=1&appkey=2606191112&iframskin=1&dpc=1";
+url = url.replace("url=auto", "url=" + document.URL); 
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script><iframe id="WBCommentFrame" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/comments.html" scrolling="no" frameborder="0" style="width: 100%; height: 1453px; "></iframe>
+<script src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+</div>
+
+								<div id="respond">
+				<h2>在评论中分享你的观点 </h2>
+				
+				<p>
+						<script type="text/javascript">
+    function sc_reload(){
+       var url=location.href;
+       var temp = url.split("#");
+       url = temp[0];
+       url += "#sc_button";
+       location.href = url;
+       location.reload();
+    }
+    </script>	
+	<style type="text/css"> 
+	.sc_button img{ border:none;}
+    </style>
+	</p><p id="sc_connect" class="sc_button">
+	<img onclick="window.open(&quot;http://blog.jobbole.com/wp-content/plugins/sina-connect/sina-start.php?callback_url=&quot;, &quot;dcWindow&quot;,&quot;width=800,height=600,left=150,top=100,scrollbar=no,resize=no&quot;);return false;" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/sina_button.png" alt="使用新浪微博登陆" style="cursor: pointer; margin-right: 20px;">
+	</p>
+					<style id="twc_styles_text" type="text/css">
+        .dc_button button{ 
+        margin:0 7px 0 0; 
+        background:none; 
+        border:none; 
+        cursor:pointer; 
+        padding:3px; /* Links */
+		    } 
+        .dc_button button{ 
+        width:auto; 
+        overflow:visible; 
+        padding:3px; /* IE6 */ 
+        } 
+        .dc_button img{ 
+        margin:0 3px -3px 0 !important; 
+        padding:0; 
+        border:none;
+		}
+    </style><p id="dc_connect" class="dc_button"><button id="dc_button" class="dc_btn"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/douban_button.png" style="margin:0;"></button></p><script type="text/javascript">
+    function dc_bookmark(){
+       var url=location.href;
+       var temp = url.split("#");
+       url = temp[0];
+       url += "#dcbutton";
+       location.href = url;
+       location.reload();
+    }
+    if(document.getElementById("dc_connect")){
+        var button = document.createElement("button");
+        button.id = "dc_button";
+        button.setAttribute("class","dc_btn");
+        button.onclick = function(){window.open("http://blog.jobbole.com/wp-content/plugins/douban-connect/douban-start.php", "dcWindow","width=800,height=800,left=150,top=100,scrollbar=no,resize=no");return false;};
+        button.innerHTML = "<img src='http://blog.jobbole.com/wp-content/plugins/douban-connect/douban_button.png' style='margin:0;'>";
+        document.getElementById("dc_connect").appendChild(button);
+	}
+	</script>			  <p></p>
+			  
+									<form action="http://blog.jobbole.com/wp-comments-post.php" method="post" id="commentform">
+																			<p><br><input id="author" name="author" type="text" value="" class="ctextbox" size="30" aria-required="true"><label for="author">名称</label> &nbsp;( 必填)</p>
+<p class="comment-form-email"><input id="email" name="email" type="text" value="" size="30" class="ctextbox" aria-required="true"><label for="email">电子邮箱</label> &nbsp;( 必填，Email不会公开)</p>
+<p class="comment-form-url"><input id="url" name="url" type="text" value="" size="30" class="ctextbox"><label for="url">网址</label></p>
+
+<div class="captchaSizeDivLarge"><img id="si_image_com" class="si-captcha" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/securimage_show.php" width="175" height="60" alt="验证图片" title="验证图片">
+    <input id="si_code_com" name="si_code_com" type="hidden" value="vrAbnRfs3IfmsCJt">
+    <div id="si_refresh_com">
+<a href="http://blog.jobbole.com/15430/#" rel="nofollow" title="刷新验证码" onclick="si_captcha_refresh(&#39;si_image_com&#39;,&#39;com&#39;,&#39;/wp-content/plugins/si-captcha-for-wordpress/captcha&#39;,&#39;http://blog.jobbole.com/wp-content/plugins/si-captcha-for-wordpress/captcha/securimage_show.php?si_form_id=com&amp;prefix=&#39;); return false;">
+      <img class="captchaImgRefresh" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/refresh.png" width="22" height="20" alt="刷新验证码" onclick="this.blur();"></a>
+  </div>
+  </div>
+<br>
+<p><input id="captcha_code" name="captcha_code" type="text" size="6">
+<label id="captcha_code_label" for="captcha_code">验证码</label><span class="required"> *</span>
+</p>												<p><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" class="ctextarea"></textarea></p><p><input name="notify" type="checkbox" value="Yes"><label class="notify"> 有人回复我的评论时，发邮件通知我</label></p>						<p class="form-allowed-tags">您可以使用这些 <abbr title="HyperText Markup Language">HTML</abbr> 标记和属性: <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre class=""&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="">
+							<input type="hidden" name="comment_post_ID" value="15430" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+											</form>
+							</div><!-- #respond -->
+			<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#commentform').submit(function() {
+            _gaq.push(
+                ['_setAccount','UA-15621043-1'],
+                ['_trackEvent','comment','submit']
+            );
+        });
+    });    
+</script>
+			
+</div><!-- #comments -->
+				  <div class="google-ads"><aside id="text-9" class="widget widget_text">			<div class="textwidget"></div>
+		</aside><aside id="text-10" class="widget widget_text">			<div class="textwidget"></div>
+		</aside></div>
+  </div>
+<!-- END: Main Content -->
+<div id="sidebar">
+<div id="search">
+<form role="search" method="get" id="searchform" action="http://blog.jobbole.com/">
+<p><input value="" name="s" id="s" type="text" class="sr-textbox">
+<input type="image" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/search.png" alt="Go" title="Go"></p>
+</form>
+</div>
+
+<!-- BuySellAds.com Zone Code -->
+<div id="bsap_1269138" class="bsap_1269138 bsap"><a href="http://stats.buysellads.com/click.go?z=1269138&b=2332546&g=&s=&sw=1600&sh=900&br=chrome,18,linux&r=0.5876873452216387&link=http://www.vfxlearning.com/home" onmouseover="window.status = &#39;http://www.vfxlearning.com/home&#39;; return true;" onmouseout="window.status=&#39;&#39;; return true;" class="ad1 odd" title="VFX Learning – 在线学习视觉效果制作，由来自ILM，Weta，DNEG和Framestore的业界专家指导。" id="bsa_2332546" target="_blank"><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/98461-1332254420.jpg" width="125" height="125" alt="VFX Learning – 在线学习视觉效果制作，由来自ILM，Weta，DNEG和Framestore的业界专家指导。"></a></div>
+<!-- End BuySellAds.com Zone Code -->
+
+<h2>热门文章</h2>
+<div class="sd-tab">
+<ul>
+<li class="first act-sdtab"><a href="http://blog.jobbole.com/15430/#tab1"><span>最近一周</span></a></li>
+							<li><a href="http://blog.jobbole.com/15430/#tab2"><span>最近一个月</span></a></li>
+							<li><a href="http://blog.jobbole.com/15430/#tab3"><span>全部时间</span></a></li>
+						</ul>
+					</div>
+					<div class="pop-posts tab_container">
+						<div class="post-content" id="tab1" style="display: block; ">
+                           <ul class="pop-list">
+							                            <li class="firstrow"><a target="_blank" href="http://blog.jobbole.com/23446/">在Facebook当程序员会是什么样的</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23553/">国内App用户付费意愿过低 开发者被迫“出海”</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/8517/">“老古董”也知道如何编程</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/13847/">创意窃贼的4种级别</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22209/">如何写一份良好的缺陷（Bug）报告</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22621/">为什么我还在编程</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23695/">安全密码存储，该怎么做，不该怎么做？</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23463/">调试器工作原理——基础篇</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23589/">最好的体验与最坏的体验</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23638/">28个Unix/Linux的命令行神器</a></li>
+                           </ul>  
+						</div>
+						<div class="post-content" id="tab2" style="display: none; ">
+                           <ul class="pop-list">
+							                            <li class="firstrow"><a target="_blank" href="http://blog.jobbole.com/22153/">给IT新人的15个建议：苦逼程序员的辛酸反省与总结</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/23022/">做iOS开发的这2年：30而立投身iOS开发嫌晚？</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22060/">为什么到今天还要坚持写博客</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22082/">模块化——高效重构</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22417/">你通过病毒和黑客聊过天么？</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22192/">五年程序员人生的点点滴滴</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22636/">Winamp如何自毁长城</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22687/">简讯：jQuery 2.0将不再支持IE 6/7/8</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22702/">Google等宣布加入编程女生倡议：增加女程序员数量</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/22778/">网站导航设计二三事</a></li>
+                           </ul>  
+						</div>
+						<div class="post-content" id="tab3" style="display: none; ">
+                            <ul class="pop-list">
+							<li class="firstrow"><a target="_blank" href="http://blog.jobbole.com/322/">风雨20年：我所积累的20条编程经验</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/270/">编程给你现实生活带来了哪些坏习惯</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/179/">开源史上最成功的八个开源产品</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/319/">艺术和设计之间的差别</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/1574/">受够了Linux服务器 重返Windows</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/181/">IT巨头的青春岁月:比尔·盖茨和保罗·艾伦</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/500/">Google前女软件工程师分享工作经历</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/8792/">如果PHP是用英式英语编写的</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/52/">睡五分钟就等于睡六个钟头的方法</a></li>
+<li><a target="_blank" href="http://blog.jobbole.com/78/">4种方式从老客户那拿到新项目</a></li>
+                            </ul>
+						</div>
+					</div>
+<div style=" margin:5px 0 0;"><h3 class="widget-title">博客侧栏No.1</h3>			<div class="textwidget"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-7056282119617872";
+/* jbblog-sidebar-1 */
+google_ad_slot = "6645040531";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><iframe allowtransparency="true" frameborder="0" height="250" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+=&#39;.call&#39;;setTimeout(h,0)}else if(h.match){i+=&#39;.nav&#39;;w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" scrolling="no" vspace="0" width="300" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins></div>
+		</div><!--Google Ads below popular post-->
+
+<!-- BuySellAds.com Zone Code -->
+<div id="bsap_1269141" class="bsap_1269141 bsap"></div>
+<!-- End BuySellAds.com Zone Code -->
+	
+<div class="pbox">
+<div id="wp125adwrap_2c">
+</div>
+						
+</div>
+
+
+<br>
+<h2><a target="_blank" href="http://blog.jobbole.com/category/books/">推荐书籍与教程</a></h2>
+
+<div class="res">
+
+<p><a target="_blank" href="http://blog.jobbole.com/5886/"><span>国外程序员推荐：每个程序员都应读的书</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/1383/"><span>一些经典的计算机书籍</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/8087/"><span>JavaScript的那些书</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/658/"><span>向设计师推荐的书籍</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/1172/"><span>推荐7本不错的HTML5书籍</span></a></p>
+
+   <p><a target="_blank" href="http://blog.jobbole.com/1442/" rel="bookmark">
+   <span>阮一峰：学习C语言的教材</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/20525/" rel="bookmark">
+   <span>系统管理员最佳实践准则</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/16240/" rel="bookmark">
+   <span>程序员都应该了解哪些安全知识</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/10309/" rel="bookmark">
+   <span>阮一峰：《禅与摩托车维修艺术》读后感</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/1151/" rel="bookmark">
+   <span>阮一峰：jQuery官方基础教程笔记</span></a>
+   </p>
+
+</div>
+
+<aside id="text-4" class="widget widget_text">			<div class="textwidget"></div>
+		</aside><aside id="text-5" class="widget widget_text">			<div class="textwidget"></div>
+		</aside>
+<br>
+<h2><a target="_blank" href="http://blog.jobbole.com/category/resources/">推荐工具与资源</a></h2>
+
+<div class="res">
+
+<p><a target="_blank" href="http://blog.jobbole.com/351/"><span>全球3大项目外包和接单网站介绍</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/628/"><span>推荐分享22个优秀的项目管理与协作工具</span></a></p>
+<p><a target="_blank" href="http://blog.jobbole.com/803/"><span>适合小型外包团队的5个Web应用程序组合</span></a></p>
+   <p><a target="_blank" href="http://blog.jobbole.com/12564/" rel="bookmark">
+   <span>移动web设计和开发45个实用资源</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/17763/" rel="bookmark">
+   <span>10个SQL注入工具</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/1523/" rel="bookmark">
+   <span>HTML5 开发者需要了解的技巧和工具汇总</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/18714/" rel="bookmark">
+   <span>13个超棒的代码资源网站推荐</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/797/" rel="bookmark">
+   <span>3个CSS3和HTML5新框架</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/1509/" rel="bookmark">
+   <span>Photoshop爱好者应该收藏的42个网站</span></a>
+   </p>
+   <p><a target="_blank" href="http://blog.jobbole.com/584/" rel="bookmark">
+   <span>15个强大的iPad应用程序</span></a>
+   </p>
+
+<div style=" margin:5px 0 0;"><h3 class="widget-title">博客侧栏No.2</h3>			<div class="textwidget"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-7056282119617872";
+/* jbblog-sidebar-2 */
+google_ad_slot = "8418538291";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><ins id="aswift_2_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><iframe allowtransparency="true" frameborder="0" height="250" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+=&#39;.call&#39;;setTimeout(h,0)}else if(h.match){i+=&#39;.nav&#39;;w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" scrolling="no" vspace="0" width="300" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins></div>
+		</div>
+</div>
+                    
+				</div><!-- END: Sidebar --><div class="clear"></div>
+</div>
+<!-- END: Container -->
+</div>
+<!-- END: Canvas -->
+</div>
+<!-- END: Wrapper -->
+
+<div id="footer">
+		<div id="footer-content">
+			<div class="ft-left">
+				<h2>关于伯乐在线-博客</h2>
+<p>在这个信息爆炸的时代，人们已然被大量、快速并且简短的信息所包围。然而，我们相信：过多“快餐”式的阅读只会令人“虚胖”，缺乏实质的内涵。伯乐在线-博客团队正试图以我们微薄的力量，把优秀的原创/译文分享给读者，为“快餐”添加一些“营养”元素。</p>
+<p>伯乐在线-博客( blog.JobBole.com )专注于分享职业相关的博客文章、业界资讯和职业相关的优秀工具和资源。博文类别包括：程序员、设计、营销、互联网、IT技术、自由职业、创业、运营、管理、翻译和人力资源等等。期待您通过<a href="http://blog.jobbole.com/feed/">RSS订阅</a>和<a href="http://weibo.com/jobbole" class="external" rel="nofollow" target="_blank">微博</a>关注我们。如果您也愿意<a href="http://blog.jobbole.com/tougao">分享一份自己的原创/译文</a>，可以<a href="http://blog.jobbole.com/tougao">从这里开始</a>～</p>
+
+
+
+			</div>
+			<div class="footer-links">
+				<h2>为博客付出努力的作/译者</h2>
+<ul>
+<li><a href="http://blog.jobbole.com/15430/#">翦&nbsp;&nbsp;&nbsp;&nbsp;丹</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">李盛晖</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">魏&nbsp;&nbsp;&nbsp;&nbsp;哲</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">齐&nbsp;&nbsp;&nbsp;&nbsp;哲</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">童海波</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">史莉萍</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">楼子宜</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">张秀君</a><br></li>
+</ul>
+<ul>
+<li><a href="http://blog.jobbole.com/15430/#">朱&nbsp;&nbsp;&nbsp;&nbsp;勇</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">何&nbsp;&nbsp;&nbsp;&nbsp;强</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">牛冬梅</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">祝&nbsp;&nbsp;&nbsp;&nbsp;佳</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">邱建红</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">高志翔</a><br></li>
+<li><a href="http://blog.jobbole.com/15430/#">石晓明</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E6%9F%B4%E9%98%BF%E5%B3%B0/">柴阿峰</a><br></li>
+<li><a href="http://blog.jobbole.com/author/matuobasyouca/">陈&nbsp;&nbsp;&nbsp;&nbsp;晨</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E6%B5%AE%E6%B8%B8/">姚&nbsp;&nbsp;&nbsp;&nbsp;睿</a><br></li>
+</ul>
+<ul>
+<li><a href="http://blog.jobbole.com/author/%E5%94%90%E5%B0%8F%E5%A8%9F/">唐小娟</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E5%94%90%E5%B0%A4%E5%8D%8E-2/">唐尤华</a></li>
+<li><a href="http://blog.jobbole.com/author/%E6%96%87%E4%BD%B3/">潘文佳</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E6%9D%8E%E5%B2%A9/">李&nbsp;&nbsp;&nbsp;&nbsp;岩</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E9%99%88%E8%88%B8/">陈&nbsp;&nbsp;&nbsp;&nbsp;舸</a></li>
+<li><a href="http://blog.jobbole.com/author/chrischen79/">陈&nbsp;&nbsp;&nbsp;&nbsp;远</a></li>
+<li><a href="http://blog.jobbole.com/author/%E9%BB%84%E5%B0%8F%E9%9D%9E/">黄小非</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E5%88%98%E5%BF%97%E5%86%9B/">刘志军</a></li>
+<li><a href="http://blog.jobbole.com/author/%E8%82%96%E7%BF%94/">肖&nbsp;&nbsp;&nbsp;&nbsp;翔</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E9%BB%84%E5%88%A9%E6%B0%91/">黄利民</a><br></li>
+<li><a href="http://blog.jobbole.com/author/%E9%BB%84%E4%BD%99%E7%B2%AE/">黄余粮</a><br></li>
+</ul>
+<br><br><br>
+<!-- h4><a  href="/tougao/">成为我们中的一员，从这里开始吧 :) </a></h4 -->
+			</div>
+
+			<div class="footer-friends-links">
+				<h2>我们的好友</h2>
+				<ul>
+<li><a rel="follow" target="_blank" href="http://isystemadmin.com/" class="external">System Administrator</a></li><br>
+<li><a rel="follow" target="_blank" href="http://isystemadmin.com/" class="external">System Administration</a></li><br>
+<li><a rel="follow" target="_blank" href="http://potion-9.com/" class="external">Wordpress Development</a></li><br>
+<li><a rel="follow" target="_blank" href="http://potion-9.com/shopify-developer-designer/" class="external">Shopify Developer</a></li><br>
+<li><a rel="follow" target="_blank" href="http://frontinside.com/" class="external">Front End Developer</a></li><br>
+<li><a rel="follow" target="_blank" href="http://resources.frontinside.com/" class="external">Front End Development</a></li>
+<li><a rel="follow" target="_blank" href="http://marketingtipsinside.com/" class="external">Marketing Tips</a></li><br>
+<li><a rel="follow" target="_blank" href="http://marketingtipsinside.com/cat/social-marketing" class="external">Social Marketing</a></li><br>
+				</ul>
+				<ul>
+					<li><a href="http://blog.jobbole.com/15430/#"></a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="ft-bottom">
+			<div id="ft-content">
+				<span id="copyright">Copyright © 2012 JOBBOLE.COM. <a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">京ICP备10038840号</a> Powered By <a target="_blank" href="http://www.wordpress.org/">Wordpress</a></span>
+				<ul class="ft-list">
+					<li><a href="http://www.jobbole.com/">首页</a></li>
+					<li><a href="http://blog.jobbole.com/">博客</a></li>
+					<li><a href="http://forum.jobbole.com/">论坛</a></li>
+					<li><a href="http://blog.jobbole.com/tougao/">投稿</a></li>
+					<li><a href="http://blog.jobbole.com/contact-us/">广告</a></li>
+					<li><a href="http://blog.jobbole.com/contact-us/">联系我们</a></li>
+				</ul>
+			</div><!-- END: Footer Content -->
+		</div><!-- END: Bottom Footer -->
+	</div><!-- END: Footer -->
+</div><!-- END: Main Wrapper -->
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/ck-karma.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {
+	next: "下一页  &gt;",
+	prev: "&lt; 上一页",
+	image: "图片",
+	of: "的",
+	close: "关闭",
+	noiframes: "这项功能需要 iframe。您停用了 iframe 功能或者您的浏览器不支持它们。",
+	loadingAnimation: "http://blog.jobbole.com/wp-includes/js/thickbox/loadingAnimation.gif",
+	closeImage: "http://blog.jobbole.com/wp-includes/js/thickbox/tb-close.png"
+};
+try{convertEntities(thickboxL10n);}catch(e){};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/thickbox.js"></script>
+<!-- Lightbox Plus v2.3 - 2011.08.11 - Message: 0-->
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  $("a[rel*=lightbox]").colorbox({opacity:0.8});
+});
+</script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/si_captcha.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var si_captcha_styles = "\
+<!-- begin SI CAPTCHA Anti-Spam - comment form style -->\
+<style type='text/css'>\
+div#captchaImgDiv { display:block; }\
+.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }\
+.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }\
+img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }\
+.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }\
+div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }\
+label#captcha_code_label { margin:0; }\
+input#captcha_code { width:65px; }\
+</style>\
+<!-- end SI CAPTCHA Anti-Spam - comment form style -->\
+";
+jQuery(document).ready(function($) {
+$('head').append(si_captcha_styles);
+});
+//]]>
+</script>
+
+<!-- WP SyntaxHighlighter Ver.1.7.3 Begin -->
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shCore.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shLegacy.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shAutoloader.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushAppleScript.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushAS3.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushBash.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushColdFusion.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushCpp.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushCSharp.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushCss.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushDelphi.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushDiff.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushErlang.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushGroovy.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushJava.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushJavaFX.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushJScript.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushPerl.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushPhp.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushPlain.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushPython.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushRuby.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushSass.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushScala.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushSql.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushVb.js"></script>
+<script type="text/javascript" src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/shBrushXml.js"></script>
+<script type="text/javascript">//<![CDATA[
+	SyntaxHighlighter.autoloader(
+	"applescript	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushAppleScript.js?ver=3.0"
+	,"as3 actionscript3	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushAS3.js?ver=3.0"
+	,"bash shell	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0"
+	,"cf coldfusion	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushColdFusion.js?ver=3.0"
+	,"cpp c	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0"
+	,"c# c-sharp csharp	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCSharp.js?ver=3.0"
+	,"css	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCss.js?ver=3.0"
+	,"delphi pas pascal	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDelphi.js?ver=3.0"
+	,"diff patch	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDiff.js?ver=3.0"
+	,"erl erlang	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushErlang.js?ver=3.0"
+	,"groovy	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushGroovy.js?ver=3.0"
+	,"java	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0"
+	,"jfx javafx	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJavaFX.js?ver=3.0"
+	,"js jscript javascript	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0"
+	,"perl pl	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPerl.js?ver=3.0"
+	,"php	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPhp.js?ver=3.0"
+	,"plain text	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0"
+	,"ps powershell	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPowerShell.js?ver=3.0"
+	,"py python	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPython.js?ver=3.0"
+	,"rails ror ruby rb	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushRuby.js?ver=3.0"
+	,"sass scss	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSass.js?ver=3.0"
+	,"scala	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0"
+	,"sql	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0"
+	,"vb vbnet	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushVb.js?ver=3.0"
+	,"xml xhtml xslt html	http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0"
+	);
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['quick-code'] = true;
+	SyntaxHighlighter.defaults['title'] = '';
+	SyntaxHighlighter.defaults['class-name'] = 'notranslate';
+	SyntaxHighlighter.defaults['collapse'] = false;
+	SyntaxHighlighter.defaults['first-line'] = 1;
+	SyntaxHighlighter.defaults['gutter'] = true;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['smart-tabs'] = true;
+	SyntaxHighlighter.defaults['tab-size'] = 4;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+ SyntaxHighlighter.config.stripBrs = true;
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = "Can't find brush for: ";
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = "Brush wasn't configured for html-script option: ";
+	SyntaxHighlighter.all();
+	dp.SyntaxHighlighter.HighlightAll('code')
+//]]></script>
+<!-- WP SyntaxHighlighter Ver.1.7.3 End -->
+
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/pYSn2iGCPLpy4IxWxLOg.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
+
+<div id="full" style="width: 50px; height: 95px; position: fixed; left: 50%; top: 480px; margin-left: 425px; z-index: 100; text-align: center; cursor: pointer; display: block; ">
+<a><img src="./你需要知道的16个Linux服务器监控命令 - 博客 - 伯乐在线_files/back-top.png" border="0" alt="返回顶部" title="返回顶部"></a>
+</div>
+
+<script type="text/javascript">
+var isie6 = window.XMLHttpRequest ? false : true; function newtoponload() { var c = document.getElementById("full"); function b() { var a = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop; if (a > 0) { if (isie6) { c.style.display = "none"; clearTimeout(window.show); window.show = setTimeout(function () { var d = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop; if (d > 0) { c.style.display = "block"; c.style.top = (480 + d) + "px" } }, 400) } else { c.style.display = "block" } } else { c.style.display = "none" } } if (isie6) { c.style.position = "absolute" } window.onscroll = b; b() } if (window.attachEvent) { window.attachEvent("onload", newtoponload) } else { window.addEventListener("load", newtoponload, false) } document.getElementById("full").onclick = function () { window.scrollTo(0, 0) };
+</script>
+
+
+<div id="cboxOverlay" style="display: none; "></div><div id="colorbox" class="" style="padding-bottom: 50px; padding-right: 50px; display: none; "><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left; "></div><div id="cboxTopCenter" style="float: left; "></div><div id="cboxTopRight" style="float: left; "></div></div><div style="clear: left; "><div id="cboxMiddleLeft" style="float: left; "></div><div id="cboxContent" style="float: left; "><div id="cboxLoadedContent" style="width: 0px; height: 0px; overflow-x: hidden; overflow-y: hidden; float: left; "></div><div id="cboxLoadingOverlay" style="float: left; "></div><div id="cboxLoadingGraphic" style="float: left; "></div><div id="cboxTitle" style="float: left; "></div><div id="cboxCurrent" style="float: left; "></div><div id="cboxNext" style="float: left; "></div><div id="cboxPrevious" style="float: left; "></div><div id="cboxSlideshow" style="float: left; "></div><div id="cboxClose" style="float: left; "></div></div><div id="cboxMiddleRight" style="float: left; "></div></div><div style="clear: left; "><div id="cboxBottomLeft" style="float: left; "></div><div id="cboxBottomCenter" style="float: left; "></div><div id="cboxBottomRight" style="float: left; "></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; "></div></div></body></html>

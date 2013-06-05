@@ -1,0 +1,34 @@
+#!/bin/bash
+tagName=$1
+fileName=$2
+
+# Define some colors first:
+RED='\e[1;31m'
+BLUE='\e[1;34m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Colors
+
+#startTag=`grep -i "<$tagName" $fileName | wc -l`
+#endTag=`grep -i "</$tagName" $fileName | wc -l`
+#
+#echo -e "Start tags count:$BLUE$startTag$NC";
+#
+#echo -e "End tags count:$BLUE$endTag$NC";
+
+if [ $startTag == $endTag ]; then
+	echo -e "all $BLUE<$tagName>$NC tags was closed correctly."
+	exit
+else
+	echo -e "$REDAn unclosed $BLUE<$tagName>$RED tag has found.$NC"
+fi
+
+printf "|\ttag name\t|\tstart-tags\t|\tend-tags\t|\tis closed correctly\t|\n"
+
+startTag=`grep -i "<$tagName" $fileName | wc -l`
+endTag=`grep -i "</$tagName" $fileName | wc -l`
+if [ $startTag == $endTag ]; then
+	isClosed="$BLUEYES$NC"
+else
+        isClosed="$BLUENO$NC"
+fi
+printf "|\t<$tagName>\t|\t$startTag\t|\t$endTag\t|\t$isClosed\t|\n"

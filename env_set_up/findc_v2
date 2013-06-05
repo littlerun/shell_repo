@@ -1,0 +1,46 @@
+#!/bin/sh
+_DEV_LOC=/var/www/html/dev/track
+_STAGE_LOC=/var/www/html/PTTStage/App/track
+
+key_string=$1
+location=$3
+filter_string=$2
+
+if [ "${location}" = "dev" ]; then
+location=$_DEV_LOC
+fi
+
+if [ "${location}" = "stage" ]; then
+location=$_STAGE_LOC
+fi
+
+if [ -z $location ]; then
+location=./
+fi
+
+
+if [ -z $filter_string ]; then
+grep -i "$key_string" $location -R -n > ~/temp_for_find_file 
+else
+grep -i "$key_string" $location -R -n | grep -v "$filter_string" > ~/temp_for_find_file
+fi
+
+resultsNum=`cat ~/temp_for_find_file | wc -l`
+if [ resultsNum>0 ]; then
+
+cat -n ~/temp_for_find_file | sed -n '1,$p;' | grep -i "$key_string" --color
+
+echo -n -e "if you would like to modify above files,please chose one [1-$resultsNum]:"
+else
+echo "none."
+exit
+fi
+read resultNo
+awk -F '\t' 'NR==1 {print $1}'
+
+#echo $searchResult
+exit
+
+`echo $searchResult | awk -F ":" '{print "vim +"$2" "$1}'`
+exit
+

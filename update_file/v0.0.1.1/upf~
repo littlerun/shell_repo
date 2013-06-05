@@ -1,0 +1,145 @@
+#!/bin/sh
+#
+#TO-DO 7:
+#The authenticity of host 'cvs.pok.ibm.com (9.57.11.175)' can't be established.
+#RSA key fingerprint is d6:96:01:4e:60:bf:4f:80:2c:77:ea:b9:e5:da:99:54.
+#Are you sure you want to continue connecting (yes/no)? 
+
+#BUG 1:
+#zhangsong@cvs.pok.ibm.com's password: 
+#zhangsong@cvs.pok.ibm.com's password: Permission denied, please try again.
+
+
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+update_file=$1
+location=$2
+password=$3
+file_version=1.417.14.2
+username=`whoami`
+current_dir=`pwd`
+tmp_dir=~/upf_tmp_dir
+
+
+
+
+if [ "${location}" = "dev" ]; then
+location=/var/www/html/ptt/App/track
+fi
+
+if [ "${location}" = "stage" ]; then
+location=/var/www/html/pttstage2/App/track
+fi
+
+if [ -z $location ]; then
+location=/var/www/html/pttstage2/App/track
+fi
+
+if [ -z $password ]; then
+password=zhangsong1231
+fi
+
+if [ ! -f "$location/$update_file" ];
+then
+if [ -f "$current_dir/$update_file" ];
+then
+location=$current_dir
+else
+echo -e "$RED Error: Invalid file - $location/$update_file not exist!$NC"
+exit
+fi
+fi
+
+if [ ! -d "$tmp_dir" ]; then
+mkdir -p "$tmp_dir"
+chmod 777 -R "$tmp_dir"
+exit
+fi
+
+if [ ! -f $tmp_dir/uplog ];
+then
+touch $tmp_dir/uplog
+fi
+
+
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cvs update -j $file_version $update_file
+EOD
+chmod 700 $tmp_dir/scratch1
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cvs status -v $update_file > $tmp_dir/cvs_version_list_tmp
+EOD
+chmod 700 $tmp_dir/scratch1 
+cat > $tmp_dir/scratch2 <<EOD
+#!/usr/bin/expect
+
+spawn $tmp_dir/scratch1
+expect "password:"
+send "$password\r"
+expect eof
+EOD
+chmod 700 $tmp_dir/scratch2
+
+cat > $tmp_dir/version_no <<EOD
+ 1)
+ 2)
+ 3)
+ 4)
+ 5)
+EOD
+chmod 700 $tmp_dir/version_no
+
+cd $location
+$tmp_dir/scratch2
+echo Automatic sign-in please waiting for a while ... \r
+echo -e "Lastest version of"$CYAN $update_file"$NC,please chose one:"
+#cat $tmp_dir/cvs_version_list_tmp | egrep '([0-9]\.[0-9])+' | grep -v '^head:.*$' | awk -F ":" '{print $2}' | sort -r | uniq | head -5
+cat $tmp_dir/cvs_version_list_tmp | sed -n '11,15p;'|sed 's/^\s*//g' > $tmp_dir/version_list_first_5
+paste -d ' ' $tmp_dir/version_no $tmp_dir/version_list_first_5
+echo -n -e "Please chose one branch $CYAN[1-5]:$NC"
+read version
+file_version=`awk -vversion="$version" -F '\t' 'NR==version {print $1}' $tmp_dir/version_list_first_5 | sed 's/\s//g'`
+
+echo -e "cvs update -j $CYAN$file_version $update_file$NC"
+cat > $tmp_dir/scratch1 <<EOD
+#!/bin/sh
+cvs update -j $file_version $update_file
+EOD
+
+
+cd $location
+$tmp_dir/scratch2 > $tmp_dir/update_result
+
+cat $tmp_dir/update_result | egrep 'Merging' | awk -v loc=$location -v file=$update_file -v usr=$username -F ' ' '{print usr":"loc"/"file"(v"$6")"}' >> $tmp_dir/uplog
+
+if cat $tmp_dir/update_result | grep 'conflicts' > /dev/null
+then
+echo -e "$RED Error: "
+tail -2 $tmp_dir/update_result
+echo -n -e $NC"Would you like delete this file and retry?[y/n]"
+read isRetry
+if [ $isRetry == 'n' ];then
+exit
+fi
+echo -n -e $CYAN"Execute sudo command "
+sudo rm -rf $location/$update_file
+echo -e $NC
+$tmp_dir/scratch2
+fi
+exit
+fi
+
+
+
+
+cat $tmp_dir/update_result

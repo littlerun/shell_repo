@@ -1,0 +1,107 @@
+#!/bin/sh
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+NC='\e[0m' # No Color
+
+update_file=$1
+publish_file_list=$2
+username=`whoami`
+current_dir=`pwd`
+tmp_dir=~/scp_tmp_dir
+sync_file='false'
+
+if [ -z $location ]; then
+location=~
+fi
+
+if [ -z $password ]; then
+password=XXXXXX
+fi
+
+if [ ! -f "$location/$update_file" ];
+then
+if [ -f "$current_dir/$update_file" ];
+then
+location=$current_dir
+else
+echo -e "$RED Error: Invalid file - $location/$update_file not exist!$NC"
+exit
+fi
+fi
+
+if [ ! -z $publish_file_list ];
+then
+if [ -f "$publish_file_list" ];
+then
+sync_file='true'
+else
+echo -e "$RED Error: Invalid file list - $publish_file_list not exist!$NC"
+exit
+fi
+else
+echo -e "$RED Error: Missing a parameter - Requires the publish file list,please supply it!$NC"
+exit
+fi
+
+if [ ! -d "$tmp_dir" ]; then
+mkdir -p "$tmp_dir"
+chmod 777 -R "$tmp_dir"
+exit
+fi
+
+if [ ! -f $tmp_dir/uplog ];
+then
+touch $tmp_dir/uplog
+fi
+
+cat > $tmp_dir/upload-package <<EOD
+#!/bin/sh
+
+echo -e "scp $update_file $username@ptt.dst.ibm.com:/home/$username"
+scp $update_file $username@ptt.dst.ibm.com:/home/$username
+EOD
+chmod 700 $tmp_dir/upload-package
+
+
+cat > $tmp_dir/unpackage <<EOD
+#!/bin/sh
+ssh $username@ptt.dst.ibm.com "tar -zxvf /home/$username/$update_file"
+EOD
+chmod 700 $tmp_dir/unpackage
+
+
+cat > $tmp_dir/publish-files <<EOD
+#!/bin/sh
+ssh $username@ptt.dst.ibm.com "`cat $publish_file_list | tr "\\n" ";"`"
+EOD
+chmod 700 $tmp_dir/publish-files
+
+cat > $tmp_dir/auto-password-script <<EOD
+#!/usr/bin/expect
+
+spawn $tmp_dir/scratch
+expect "password:"
+send "$password\r"
+expect eof
+EOD
+chmod 700 $tmp_dir/auto-password-script
+
+function runScript {
+mv $tmp_dir/$1 $tmp_dir/scratch
+
+cd $location
+$tmp_dir/auto-password-script
+}
+
+runScript upload-package
+
+runScript unpackage
+
+runScript publish-files
+exit

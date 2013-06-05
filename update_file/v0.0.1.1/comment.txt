@@ -1,0 +1,2 @@
+1)Create independent temp directory for each user.
+2)Auto recognize file location.(current dir + file)

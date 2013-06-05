@@ -1,0 +1,66 @@
+WR911181SG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=911181
+
+track/proj/projmainpage.php (1.43.30.4)
+
+B120820_WR911181SG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+WR911323TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=911323
+
+track/MVC/view/page/wse/wsetaskadd.tpl (V 1.3.14.5)
+track/wse/model/model.assignmentEditForWSE.php (V 1.4.14.3)
+track/wse/edit_wse.php (v1.3.14.1) 
+
+B120813_WR911323TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+WR912001TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=912001
+
+track/asig/copy_task.php (B120822_WR912001TG)
+
+B120822_WR912001TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+WR912043VS https://ptt.dst.ibm.com/track/asig/displaya.php?editID=912043
+
+track/MVC/view/page/asig/taskdetail/default_workflowdetail_edit.tpl (B120817_WR912043VS)
+
+B120817_WR912043VS
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+WR912048TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=912048
+
+track/time/class.tt_data.inc (B120814_WR912048TG)
+
+B120814_WR912048TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+WR912341TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=912341
+
+track/inc/bpverification.php(V1.14.262.1)
+
+B120820_WR912341TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+WR913334TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=913334
+
+track/inc/managers/asignmanager.inc (V 1.159.14.1)
+
+B120820_WR913334TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+WR912607TN https://ptt.dst.ibm.com/track/asig/displaya.php?editID=912607
+
+track/index1.php (1.71.40.1)
+
+B120821_WR912607TN 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#########################################
+#  NEED FURTURE TEST			#
+#########################################
+
+WR913977TG https://ptt.dst.ibm.com/track/asig/displaya.php?editID=913977
+
+index1.php(V1.71.46.1)
+
+B120823_WR913977TG
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
