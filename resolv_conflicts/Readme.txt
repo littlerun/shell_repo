@@ -25,7 +25,7 @@ A conflict can result from a merge operation. If that happens, you should resolv
 
 	*********************************************************
 	* $ cd track	# Change directory to the project root
-	* $ /path/batch_process_conflicts.sh old	# Run the script from it's path
+	* $ /path/batch_process_conflicts.sh old	# Run from it's path
 	*********************************************************
 
 	To slove above issue,and keep the NEW contents from "=======" and ">>>>>>>"
@@ -58,7 +58,6 @@ A conflict can result from a merge operation. If that happens, you should resolv
 	*  ./asig/updatea.php:<<<<<<< updatea.php
 	*  ./asig/adda_q.php:<<<<<<< adda_q.php
 	*  ./asig/adda.php:<<<<<<< adda.php
-	*  ./asig/popChangeSPDAndExpectedHour.php:<<<<<<< popChangeSPDAndExpectedHour.php
 	*  ./asig/displaya.php:<<<<<<< displaya.php
 	*  ./asig/displaya_q.php:<<<<<<< displaya_q.php
 	*  ./js/reassignTo.js:<<<<<<< reassignTo.js
